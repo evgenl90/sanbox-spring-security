@@ -3,6 +3,7 @@ package com.sanbox.sanboxspringsecurity;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,5 +41,12 @@ public class GreetingsRestController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Map.of("greeting", "Hello, %s".formatted(userDetails.getUsername())));
+    }
+
+    @GetMapping("/api/v5/greetings")
+    public ResponseEntity<Map<String, String>> getGreetingsV5(UsernamePasswordAuthenticationToken principal) {
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Map.of("greeting", "Hello, %s".formatted(principal.getName())));
     }
 }
